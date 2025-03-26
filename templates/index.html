@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Gerenciar Contratos{% endblock %}
+
+{% block content %}
+  <h1>Gerenciar Contratos</h1>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <form method="POST" action="/search">
+    <input type="text" name="search_term" placeholder="Pesquisar por nome ou CNPJ">
+    <input type="submit" value="Pesquisar">
+  </form>
+
+    <form method="POST" action="/">
+    <label for="nome">Nome:</label><br>
+    <input type="text" id="nome" name="nome"><br><br>
+
+    <label for="cnpj">CNPJ:</label><br>
+    <input type="text" id="cnpj" name="cnpj"><br><br>
+
+    <label for="endereco">Endereço:</label><br>
+    <input type="text" id="endereco" name="endereco"><br><br>
+
+    <label for="cep">CEP:</label><br>
+    <input type="text" id="cep" name="cep"><br><br>
+
+    <label for="estado">Estado:</label><br>
+    <input type="text" id="estado" name="estado"><br><br>
+
+    <label for="telefone">Telefone:</label><br>
+    <input type="text" id="telefone" name="telefone"><br><br>
+
+    <label for="email">E-mail:</label><br>
+    <input type="email" id="email" name="email"><br><br>
+
+    <label for="valor_contrato">Valor do Contrato:</label><br>
+    <input type="number" id="valor_contrato" name="valor_contrato"><br><br>
+
+    <label for="data_contrato">Data do Contrato:</label><br>
+    <input type="date" id="data_contrato" name="data_contrato"><br><br>
+
+    <input type="submit" value="Salvar" onclick="return confirm('Tem certeza que deseja salvar?')">
+  </form>
+
+  <h2>Contratos</h2>
+  <ul>
+    {% for contrato in contratos %}
+      <li>
+        {{ contrato.nome }} - {{ contrato.cnpj }} - {{ contrato.endereco }} - {{ contrato.cep }} - {{ contrato.estado }} - {{ contrato.telefone }} - {{ contrato.email }} - {{ contrato.valor_contrato }} - {{ contrato.data_contrato }}
+        <a href="/edit/{{ contrato.id }}" onclick="return confirm('Tem certeza que deseja editar?')">Editar</a>
+        <a href="/pdf/{{ contrato.id }}">PDF</a>
+        <a href="/json/{{ contrato.id }}">JSON</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
